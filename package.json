@@ -1,6 +1,6 @@
 {
   "name": "chattwx",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "main.js",
   "scripts": {
@@ -13,9 +13,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^4.0.0"
+    "puppeteer": "^4.0.0",
+    "wordwrap": "^1.0.0"
   },
   "bin": {
-    "chattwx": "main.js"
+    "chattwx": "bin/chattwx.js"
   }
 }
