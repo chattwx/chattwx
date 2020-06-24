@@ -3,6 +3,7 @@ const WRCB_WX_URL = 'https://www.wrcbtv.com/weather';
 
 class WRCBForecast {
   forecastBlocks = [];
+  updatedAT = null;
 
   async fetch() {
     try {
@@ -13,7 +14,7 @@ class WRCBForecast {
       //Click the Read More button
       await page.click('.readMore');
 
-      let forecastBlocks = await page.$$eval('.SimpleMeteorologistForecastModal-forecastContent > div > p', paras =>
+      const forecastBlocks = await page.$$eval('.SimpleMeteorologistForecastModal-forecastContent > div > p', paras =>
         paras
           .map(p => p.innerText)
           // strip out newlines
@@ -23,14 +24,17 @@ class WRCBForecast {
       );
 
       this.forecastBlocks = forecastBlocks;
+
+      this.updatedAT = await page.$eval('.Timestamp-time', span => span.innerText);
     } catch (e) {
       console.warn(e);
       this.forecastBlocks = [];
+      this.updatedAT = null;
     }
   }
 
   toString() {
-    return this.forecastBlocks.join('\n\n');
+    return [this.updatedAT, ...this.forecastBlocks].join('\n\n');
   }
 }
 
