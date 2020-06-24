@@ -1,15 +1,21 @@
 {
   "name": "chattwx",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main"
   },
-  "keywords": [],
+  "keywords": [
+    "weather"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "puppeteer": "^4.0.0"
+  },
+  "bin": {
+    "chattwx": "main.js"
   }
 }
