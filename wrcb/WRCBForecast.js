@@ -14,13 +14,20 @@ class WRCBForecast {
       //Click the Read More button
       await page.click('.readMore');
 
-      const forecastBlocks = await page.$$eval('.SimpleMeteorologistForecastModal-forecastContent > div > p', paras =>
-        paras
-          .map(p => p.innerText)
-          // strip out newlines
-          .map(b => b.replace('\n', ''))
-          // strip out double spaces
-          .map(b => b.replace('\n', '')),
+      const forecastBlocks = await page.$$eval(
+        '.SimpleMeteorologistForecastModal-forecastContent > div',
+
+        divs => {
+          return (
+            divs
+              .map(p => p.innerText)
+              // strip out newlines
+              .map(b => b.replace('\n', ''))
+              // strip out double spaces
+              .map(b => b.replace('\n', ''))
+              .filter(b => b.length > 0)
+          );
+        },
       );
 
       this.forecastBlocks = forecastBlocks;
