@@ -13,10 +13,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "html-to-text": "^5.1.1",
     "lodash": "^4.17.15",
     "moment": "^2.27.0",
-    "node-fetch": "^2.6.0",
-    "wordwrap": "^1.0.0"
+    "node-fetch": "^2.6.0"
   },
   "bin": {
     "chattwx": "bin/chattwx.js"

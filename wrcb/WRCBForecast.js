@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 const moment = require('moment');
 const _ = require('lodash');
+const htmlToText = require('html-to-text');
+
 const WRCB_WX_URL = 'https://wrcb.api.franklyinc.com/weather?clienttype=container.json';
 
 class WRCBForecast {
@@ -15,7 +17,7 @@ class WRCBForecast {
         f => f.type === 'weather',
       );
 
-      console.log('🌦 Latest weather feature:', JSON.stringify(wxFeat));
+      // console.debug('🌦 Latest weather feature:', JSON.stringify(wxFeat));
 
       this.updatedAT = moment(wxFeat.lastupdatedate);
       this.forecast = wxFeat.currentconditions;
@@ -27,10 +29,14 @@ class WRCBForecast {
   }
 
   toString() {
+    const forecastText = htmlToText.fromString(this.forecast, {
+      wordwrap: 60,
+    });
+
     return `
       Last Updated: ${this.updatedAT.format('LLL')} (${this.updatedAT.fromNow()})
 
-      ${this.forecast}
+      ${forecastText}
     `;
   }
 }
