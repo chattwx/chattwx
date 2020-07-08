@@ -1,16 +1,15 @@
 {
   "name": "chattwx",
-  "version": "2.0.2",
-  "description": "",
+  "version": "3.0.0",
+  "description": "Prints (usually) a weather forecast for Chattanooga, TN",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main"
   },
   "keywords": [
     "weather"
   ],
-  "author": "",
+  "author": "wg",
   "license": "ISC",
   "dependencies": {
     "html-to-text": "^5.1.1",
