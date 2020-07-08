@@ -1,38 +1,24 @@
-const puppeteer = require('puppeteer');
-const WRCB_WX_URL = 'https://www.wrcbtv.com/weather';
+const fetch = require('node-fetch');
+const moment = require('moment');
+const _ = require('lodash');
+const WRCB_WX_URL = 'https://wrcb.api.franklyinc.com/weather?clienttype=container.json';
 
 class WRCBForecast {
-  forecastBlocks = [];
   updatedAT = null;
 
   async fetch() {
     try {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-      await page.goto(WRCB_WX_URL);
+      const res = await fetch(WRCB_WX_URL);
+      const wxJSON = await res.json();
 
-      //Click the Read More button
-      await page.click('.readMore');
-
-      const forecastBlocks = await page.$$eval(
-        '.SimpleMeteorologistForecastModal-forecastContent > div',
-
-        divs => {
-          return (
-            divs
-              .map(p => p.innerText)
-              // strip out newlines
-              .map(b => b.replace('\n', ''))
-              // strip out double spaces
-              .map(b => b.replace('\n', ''))
-              .filter(b => b.length > 0)
-          );
-        },
+      const [wxFeat] = _.sortBy(wxJSON.features, f => moment(f.lastupdatedate), ['desc']).filter(
+        f => f.type === 'weather',
       );
 
-      this.forecastBlocks = forecastBlocks;
+      console.log('🌦 Latest weather feature:', JSON.stringify(wxFeat));
 
-      this.updatedAT = await page.$eval('.Timestamp-time', span => span.innerText);
+      this.updatedAT = moment(wxFeat.lastupdatedate);
+      this.forecast = wxFeat.currentconditions;
     } catch (e) {
       console.warn(e);
       this.forecastBlocks = [];
@@ -41,7 +27,7 @@ class WRCBForecast {
   }
 
   toString() {
-    return [this.updatedAT, ...this.forecastBlocks].join('\n\n');
+    return this.forecast;
   }
 }
 
