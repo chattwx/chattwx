@@ -27,7 +27,11 @@ class WRCBForecast {
   }
 
   toString() {
-    return this.forecast;
+    return `
+      Last Updated: ${this.updatedAT.format('LLL')} (${this.updatedAT.fromNow()})
+
+      ${this.forecast}
+    `;
   }
 }
 
