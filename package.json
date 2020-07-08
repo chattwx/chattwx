@@ -1,6 +1,6 @@
 {
   "name": "chattwx",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Prints (usually) a weather forecast for Chattanooga, TN",
   "main": "main.js",
   "scripts": {

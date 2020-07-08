@@ -6,7 +6,7 @@ const htmlToText = require('html-to-text');
 const WRCB_WX_URL = 'https://wrcb.api.franklyinc.com/weather?clienttype=container.json';
 
 class WRCBForecast {
-  updatedAT = null;
+  forecastFeature = null;
 
   async fetch() {
     try {
@@ -17,27 +17,33 @@ class WRCBForecast {
         f => f.type === 'weather',
       );
 
-      // console.debug('🌦 Latest weather feature:', JSON.stringify(wxFeat));
+      //console.debug('🌦 Latest weather feature:', JSON.stringify(wxFeat));
 
-      this.updatedAT = moment(wxFeat.lastupdatedate);
-      this.forecast = wxFeat.currentconditions;
+      this.forecastFeature = wxFeat;
     } catch (e) {
       console.warn(e);
-      this.forecastBlocks = [];
-      this.updatedAT = null;
     }
   }
 
+  get forecast() {
+    if (this.forecastFeature) {
+      return this.forecastFeature.currentconditions;
+    }
+
+    return undefined;
+  }
+
   toString() {
-    const forecastText = htmlToText.fromString(this.forecast, {
-      wordwrap: 60,
-    });
+    if (this.forecastFeature) {
+      const updatedAt = moment(this.forecastFeature.lastupdatedate);
 
-    return `
-      Last Updated: ${this.updatedAT.format('LLL')} (${this.updatedAT.fromNow()})
+      const updatedAtText = `Last Updated: ${updatedAt.format('LLL')} (${updatedAt.fromNow()})`;
+      const forecastText = htmlToText.fromString(this.forecast, {
+        wordwrap: 60,
+      });
 
-      ${forecastText}
-    `;
+      return [updatedAtText, forecastText].join('\n\n');
+    }
   }
 }
 
