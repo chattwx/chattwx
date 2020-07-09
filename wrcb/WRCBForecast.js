@@ -59,11 +59,13 @@ class WRCBForecast {
       const updatedAt = moment(this.forecastFeature.lastupdatedate);
 
       const updatedAtText = `Last Updated: ${updatedAt.format('LLL')} (${updatedAt.fromNow()})`;
-      const forecastText = htmlToText.fromString(this.forecast, {
-        wordwrap: 60,
-      });
+      const forecastText = htmlToText
+        .fromString(this.forecast, {
+          wordwrap: 60,
+        })
+        .trim();
 
-      return [updatedAtText, forecastText].join('\n\n');
+      return [updatedAtText, forecastText].join('\n\n').replace(/(\r\n|\r|\n){2,}/g, '$1\n');
     }
   }
 }
