@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const moment = require('moment');
 const _ = require('lodash');
 const htmlToText = require('html-to-text');
+const cheerio = require('cheerio');
 
 const WRCB_WX_URL = 'https://wrcb.api.franklyinc.com/weather?clienttype=container.json';
 
@@ -26,6 +27,26 @@ class WRCBForecast {
   }
 
   get forecast() {
+    if (this.forecastFeature) {
+      // console.debug(`raw forecast---\n`, this.forecastFeature.currentconditions, '\n----\n');
+
+      const $ = cheerio.load(this.forecastFeature.currentconditions);
+
+      $('*').filter((i, el) => {
+        const text = $(el).text().trim();
+        // console.log(text);
+        return text.length > 0;
+      });
+
+      $('div').each((i, el) => (el.tagName = 'p'));
+
+      return $.html();
+    }
+
+    return undefined;
+  }
+
+  get rawForecast() {
     if (this.forecastFeature) {
       return this.forecastFeature.currentconditions;
     }
