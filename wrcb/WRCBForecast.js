@@ -54,6 +54,14 @@ class WRCBForecast {
     return undefined;
   }
 
+  get updatedAT() {
+    if (this.forecastFeature) {
+      return moment(this.forecastFeature.lastupdatedate);
+    }
+
+    return undefined;
+  }
+
   toString() {
     if (this.forecastFeature) {
       const updatedAt = moment(this.forecastFeature.lastupdatedate);

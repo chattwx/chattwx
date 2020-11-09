@@ -1,10 +1,11 @@
 {
   "name": "chattwx",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "(usually) prints a weather forecast for Chattanooga, TN",
   "main": "main.js",
   "scripts": {
-    "start": "node main"
+    "start": "node main",
+    "scrape-wrcb": "node wrcb/scrape.js"
   },
   "keywords": [
     "weather"
