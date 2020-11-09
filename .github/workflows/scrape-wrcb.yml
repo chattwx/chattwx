@@ -1,18 +1,17 @@
-
 on:
-    schedule:
-      - cron:  '*/5 * * * *'' # Every 5 minutes
-  name: Scrape WRCB Data
-  jobs:
-    build:
-      name: Build
-      runs-on: ubuntu-latest
-      steps:
+  schedule:
+    - cron: '*/5 * * * *' # Every 5 minutes
+name: Scrape WRCB Data
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@master
       - name: Build
         run: npm install
       - name: Scrape
-        run: npm run scrape-wrcb 
+        run: npm run scrape-wrcb
         # env:
         #   WHATEVER_TOKEN: ${{ secrets.YOU_WANT }}
       - uses: mikeal/publish-to-github-action@master
