@@ -6,7 +6,7 @@ const _ = require('lodash');
 const SCRAPES_DIR = '../scrapes/wrcb';
 
 const scrape = async () => {
-  const forecast = new WRCBForecast();
+  const forecast = new WRCBForecast({ includeRelativeUpdatedAT: false });
   await forecast.fetch();
 
   const dateString = forecast.updatedAT.format('YYYY-MM-DD-h:mm:ss');

@@ -9,6 +9,12 @@ const WRCB_WX_URL = 'https://wrcb.api.franklyinc.com/weather?clienttype=containe
 class WRCBForecast {
   forecastFeature = null;
 
+  constructor({ includeRelativeUpdatedAT = true }) {
+    this.opts = {
+      includeRelativeUpdatedAT,
+    };
+  }
+
   async fetch() {
     try {
       const res = await fetch(WRCB_WX_URL);
@@ -66,7 +72,9 @@ class WRCBForecast {
     if (this.forecastFeature) {
       const updatedAt = moment(this.forecastFeature.lastupdatedate);
 
-      const updatedAtText = `Last Updated: ${updatedAt.format('LLL')} (${updatedAt.fromNow()})`;
+      const updatedAtText = this.opts.includeRelativeUpdatedAT
+        ? `Last Updated: ${updatedAt.format('LLL')} (${updatedAt.fromNow()})`
+        : `Updated: ${updatedAt.format('LLL')}`;
       const forecastText = htmlToText
         .fromString(this.forecast, {
           wordwrap: 60,
