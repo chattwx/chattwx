@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const _ = require('lodash');
 const htmlToText = require('html-to-text');
 const cheerio = require('cheerio');
@@ -62,7 +62,7 @@ class WRCBForecast {
 
   get updatedAT() {
     if (this.forecastFeature) {
-      return moment(this.forecastFeature.lastupdatedate);
+      return moment(this.forecastFeature.lastupdatedate).tz('America/New_York');
     }
 
     return undefined;
@@ -70,7 +70,7 @@ class WRCBForecast {
 
   toString() {
     if (this.forecastFeature) {
-      const updatedAt = moment(this.forecastFeature.lastupdatedate);
+      const updatedAt = this.updatedAT;
 
       const updatedAtText = this.opts.includeRelativeUpdatedAT
         ? `Last Updated: ${updatedAt.format('LLL')} (${updatedAt.fromNow()})`
