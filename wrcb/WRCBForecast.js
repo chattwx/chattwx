@@ -77,7 +77,7 @@ class WRCBForecast {
         : `Updated: ${updatedAt.format('LLL')}`;
       const forecastText = htmlToText
         .fromString(this.forecast, {
-          wordwrap: 60,
+          wordwrap: 80,
         })
         .trim();
 
