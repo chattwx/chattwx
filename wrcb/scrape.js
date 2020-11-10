@@ -13,7 +13,7 @@ const discordConfig = () => {
     avatar_url: 'https://cdn.discordapp.com/attachments/740695875797385238/775508680094777374/unknown.png',
     thumbnail_url: 'https://cdn.discordapp.com/attachments/740695875797385238/775510435658334228/unknown.png',
     embed_url: 'https://www.wrcbtv.com/weather',
-    title: 'WRCB Forecast Updated',
+    title: 'WRCB Forecast Update',
     color: '57599',
   };
 };
